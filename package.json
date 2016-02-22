@@ -1,0 +1,25 @@
+{
+  "name": "winlog",
+  "version": "1.0.0",
+  "description": "Winston logger with cluster wrapper",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tbouchnafa/winlog.git"
+  },
+  "keywords": [
+    "winston",
+    "logger",
+    "cluster",
+    "wrapper"
+  ],
+  "author": "thami.bouchnafa@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tbouchnafa/winlog/issues"
+  },
+  "homepage": "https://github.com/tbouchnafa/winlog#readme"
+}
