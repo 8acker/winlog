@@ -1,14 +1,14 @@
 {
   "name": "winlog",
   "version": "1.0.0",
-  "description": "Winston logger with cluster wrapper",
+  "description": "Winston logger with cluster wrapper and daily rotate logger file ",
   "main": "index.js",
   "scripts": {
     "test": "npm test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tbouchnafa/winlog.git"
+    "url": "git+https://diygitlabbs01.infra.server.lan/mwsc/winlog.git"
   },
   "keywords": [
     "winston",
@@ -16,10 +16,10 @@
     "cluster",
     "wrapper"
   ],
-  "author": "thami.bouchnafa@gmail.com",
+  "author": "Frank Roth (frank.roth@1und1.de), Thami Bouchnafa (thami.bouchnafa@1und1.de)",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tbouchnafa/winlog/issues"
-  },
-  "homepage": "https://github.com/tbouchnafa/winlog#readme"
+  "dependencies": {
+    "winston": "^2.1.1",
+    "winston-daily-rotate-file": "^1.0.1"
+  }
 }
