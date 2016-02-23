@@ -1,48 +1,54 @@
 "use strict";
 
 var winston = require('winston');
+var extend = require('extend-fn');
 var _wrapper = require('./lib/cluster.wrapper');
-var _ = require('lodash');
 
-var default_winston_options = {
-    colors: {
-        debug: 'magenta',
-        info: 'green',
-        warning: 'yellow',
-        error: 'red'
+var default_options = {
+    winston: {
+        colors: {
+            debug: 'magenta',
+            info: 'green',
+            warning: 'yellow',
+            error: 'red'
+        },
+        transports: [
+            new winston.transports.Console(
+                {
+                    level: 'debug',
+                    json: false,
+                    colorize: true,
+                    prettyPrint: true,
+                    handleExceptions: true
+                }
+            )
+        ],
+        exceptionHandlers: [
+            new winston.transports.File(
+                {
+                    filename: 'logs/winston_exception_handlers.log',
+                    json: false, maxsize: 1024 * 1024 * 10
+                }
+            )
+        ]
     },
-    transports: [
-        new winston.transports.Console(
-            {
-                level: 'debug',
-                json: false,
-                colorize: true,
-                prettyPrint: true,
-                handleExceptions: true
-            }
-        )
-    ],
-    exceptionHandlers: [
-        new winston.transports.File(
-            {
-                filename: 'logs/winston_exception_handlers.log',
-                json: false, maxsize: 1024 * 1024 * 10
-            }
-        )
-    ]
+    daily_rotate: {
+        filename: 'logs/winston_',
+        datePattern: 'yyyy_MM_dd.log',
+        json: false,
+        maxsize: 1024 * 1024 * 10
+    }
 };
 
-var default_daily_rotate_options = {
-    filename: 'logs/winston_',
-    datePattern: 'yyyy_MM_dd.log',
-    json: false,
-    maxsize: 1024 * 1024 * 10
-};
+module.exports = function(options) {
 
-module.exports = function(winston_options, daily_rotate_options) {
-    var _logger = new (winston.Logger)(_.assign(default_winston_options, winston_options));
+    options = options ? options : {};
 
-    _logger.add(require('winston-daily-rotate-file'), _.assign(default_daily_rotate_options, daily_rotate_options));
+    var winston_options = extend(default_options.winston, options.winston);
+    var _logger = new (winston.Logger)(winston_options);
+
+    var winston_daily_rotate_options = extend(default_options.daily_rotate, options.daily_rotate);
+    _logger.add(require('winston-daily-rotate-file'), winston_daily_rotate_options);
 
     _logger._debug = function (msg) {
         _logger.debug(_wrapper(msg));
@@ -59,14 +65,14 @@ module.exports = function(winston_options, daily_rotate_options) {
         _logger.error(_wrapper(msg));
     };
 
-    process.on('uncaughtException', function (err) {
-        _logger.error(_wrapper(err.stack));
-        process.exit();
-    });
-
     _logger._wrap = function(msg) {
         return _wrapper(msg);
     };
 
+    process.on('uncaughtException', function (err) {
+        _logger._error(err.stack);
+        process.exit();
+    });
+
     return _logger;
-}();
+};

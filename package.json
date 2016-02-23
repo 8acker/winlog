@@ -4,7 +4,7 @@
   "description": "Winston logger with cluster wrapper and daily rotate logger file ",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "mocha --reporter spec test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
   "author": "Frank Roth (frank.roth@1und1.de), Thami Bouchnafa (thami.bouchnafa@1und1.de)",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.5.1",
+    "extend-fn": "0.0.6",
     "winston": "^2.1.1",
     "winston-daily-rotate-file": "^1.0.1"
   }
