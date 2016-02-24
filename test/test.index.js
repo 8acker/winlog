@@ -1,25 +1,24 @@
 var assert = require('assert');
 var fs = require('fs');
-var path = require('path');
-var wrapper = require('./../lib/cluster.wrapper');
-var logger = require('./../index')();
+var Logger = require('./../index');
+var logger = new Logger();
 
 describe('Logger', function () {
 
     before(function (done) {
         this.timeout(60000);
-        logger._info('logging statment: info');
-        logger._error('logging statment: error');
-        logger._debug('logging statment: debug');
-        logger._warn('logging statment: warn');
+        logger.info('logging statment: info');
+        logger.error('logging statment: error');
+        logger.debug('logging statment: debug');
+        logger.warn('logging statment: warn');
         done();
     });
 
-    it('#_wrap()', function () {
-        assert.equal(logger._wrap('logging statment: _wrap'), 'logging statment: _wrap');
+    it('#wrap()', function () {
+        assert.equal(logger.wrap('logging statment: #wrap()'), 'logging statment: #wrap()');
     });
 
-    it('#_info(), #_error(), #_debug(), #_warn()', function (done) {
+    it('#info(), #error(), #debug(), #warn()', function (done) {
         this.timeout = 60000;
         var filename = 'logs/winston_' + new Date().toISOString().slice(0,10).replace(/-/g,"_") + '.log';
 
