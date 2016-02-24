@@ -1,6 +1,6 @@
 {
   "name": "winlog",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Winston logger with cluster wrapper and daily rotate logger file ",
   "main": "index.js",
   "scripts": {
